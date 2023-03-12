@@ -1,0 +1,58 @@
+Clarifying questions:
+
+	- What should be returned? Is the order of the returned array important?
+	- Can I use filter? Should I use recursion?
+	- Is javascript ok to use for my language?
+	- What data types are we handling as inputs? Only strings?
+
+[1] Solution using 'Set', no recursion:
+
+function removeDupes(arr) { 					// create a function called removeDupes that takes the argument 'array' (arr)
+	if (arr.length === 0 || arr.length === 1 ) {	// check the length of the array, if it's 1 or 0, return the array itself
+		return(arr);
+	} else {					
+	let uniqueArr = [... new Set(arr)]; 		// define a new variable 'uniqueArr' to hold the unique elements from the original array (to be defined later).  
+									// Use the spread operator to iterate through the original array, and use the built-in 'set' method to include only unique entries from the original array. 
+	return(uniqueArr)						// return the uniqueArr variable.
+	}
+
+const dupeArr = [ ] 						// define variable dupeArr to hold whatever the original, duplicative data are.
+
+removeDupes(dupeArr);						// call the removeDupes method on dupeArr object and the computer will return an array consisting of only one entry of any duplicated items. 
+
+
+
+[2] Solution using recursion:
+
+function removeDupes(arr) {					// create a function called removeDupes that takes the argument 'array' (arr)
+	if (arr.length === 0 || arr.length === 1 ) {	// First check the length of the array, if it's 1 or 0, simply return the array itself
+		return(arr);
+	}
+
+	const first = arr[0];					// Then we declare a variable to store the first element of the array, so that it can be compared
+	const remainder = arr.slice(1)			// We then declare a variable to store the remaining elements from the original array.
+	const filteredArr = removeDupes(remainder);	// Then declare a third array which will be the resulting array containing no duplicates, and which recursively calls the method removeDupes.
+
+	if (filteredArr.indexOf(first) !==-1) {		// This line takes the first element in filteredArr and compares it to the value of the declared variable first
+		return filteredArr;				// If the first element in filteredArr and the value of first are the same, the value is discarded and the function is recursively called again
+	} else {
+		return [first].concat(filteredArr);		// If the element in filteredArr and the value of first are not the same, the value of first is concatenated into filteredArr and the function is recursively called again
+	}
+	
+const dupeArr = [ ];
+removeDupes(dupeArr);
+
+		
+[3] Solution using Filter:
+
+function removeDupes(arr) {								// create a function called removeDupes that takes the argument 'array' (arr)
+	if (arr.length === 0 || arr.length === 1 ) {				// First check the length of the array, if it's 1 or 0, return the array itself
+		return(arr);
+	} else {
+	return arr.filter((item, index) => arr.indexOf(item) === index);	// else, return a filtered array, passing in the conditional callback function: (item, index) => arr.indexOf(item) === index.
+	}											// in other words we are calling the built-in filter method, and passing in a conditional statement (which returns true or false)
+												// whenever the conditional function returns true, the item is added to the new array. If the statement evaluates false, 
+												// the item already exists in the new array and is not added again. The conditional evaluates the index of the current item, and whether it is
+												// equal to the first index location of the item; if it is, it is the first occurrence of the item, and that item is added to the new array.
+const dupeArr = [];
+removeDupes(dupeArr);

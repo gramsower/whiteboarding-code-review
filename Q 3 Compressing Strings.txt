@@ -1,0 +1,82 @@
+Q 3: Compressing Strings
+
+Given a string with repeated (sequential) characters, compress the repeated characters thusly:
+
+string: aaabccdddda
+output: 3ab2c4da
+
+Clarifying questions:
+
+	- What should be returned? 
+	- What data types should be handled? Strings only?
+	- How should single instances of a letter be handled?
+	- What about two letters separated by a space -- are these considered repeating?
+	- Can I use built-in methods?
+	- Should I use recursion?
+	- Is javascript ok to use for my language?
+
+
+3a. Without recursion:
+
+function compressString(string) {					// Error checking first.
+	 if (typeof string !== "string") {				// using built-in method "typeOf", check to ensure that the datatype is a string.
+		return "Error: datatype must be a string."	// if not, return error message.
+	} else {
+	
+	let shortString = "";					// Initialize a variable to hold the new compressed string.
+	let characterCount = 1;					// Initialize a variable to track how many times we've seen the current character, which we will display in-line in the resulting compressed string. 
+
+	for (let i=0; i< string.length; i++) {			// Set up a For loop, iterating over each character for the length of the string.
+		if (string[i] === string[i+1]) {			// If the character at the current index position is equal to the character at the next index position, 
+			characterCount++;					// then we increment the count and loop back to the next character.
+
+		} else {							// If the character at the current index positions is NOT equal to the character at the next index position,
+			if (characterCount === 1) {			// AND, if the character count is 1 (meaning the character only appears once in a row), then
+			shortString += string[i]			// We add the character to the compressed string variable, but do not add a number, and then loop back to the next character.
+			} else {
+			shortString += characterCount + string[i];	// On the other hand, if the character count is >1, then we concatenate the count variable and the character at string index position[i] (our current position) into the compressed string (variable shortString) and loop back.
+			characterCount = 1;					// and we reset the character count before moving on to the next character.
+			}						
+		}
+	}
+
+	return shortString;
+}	
+
+	
+const bigString = "aabccccaaa";
+compressString(bigString);						// returns "2ab4c3a"
+
+
+3b. With recursion:
+
+function compressString(string) {
+	if (typeof string !== "string") {
+		return "Error: datatype must be a string."
+	} else {
+	
+	if (string.length <= 1) {					// Base case -- if string one character or less, return just the string.
+		return string;
+	}
+
+	let characterCount = 1;						// Initialize a variable to track how many instances of the current character appear in a row
+	let shortString = "";						// Initialize a variable to hold the new compressed string.
+
+	for (let i=1; i < string.length; i++) {			// Set up a For loop, iterating over each character for the length of the string (which must be at least two characters at this point in the algorithm.)
+		if (string[i] === string[0]) {			// If the character at position i is the same as the character at the beginning of the string, increment the character count, 
+			characterCount ++;
+		} else {
+			break;						// If the character at position is NOT the same as the character at the beginning of the string, break out of the loop
+		}
+	}
+
+	if (characterCount > 1) {					// If the characterCount is now greater than one, append the characterCount value to the shortString variable.
+		shortString += characterCount;
+	}
+
+	shortString += string[0];					// Add the current character to the shortString variable.
+	return shortString + compressString(string.slice(count)); // return the present state of the variable shortString, and call compressString on the remaining characters in the original string.
+
+
+
+

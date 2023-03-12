@@ -1,0 +1,31 @@
+4. Checking for Uniqueness
+
+Check whether all elements in a string are unique. May NOT convert string into array or use array methods to solve the problem.
+Should return 'true' or 'false'.
+
+Ex. Input: "Hello", Output: false.
+
+	- Can I use filter? Should I use recursion?
+	- Is javascript ok to use for my language?
+	- What data types are we handling? Only strings?
+	- Can I use built-in methods other than array methods?
+
+Solution:
+
+	function checkUnique(string) {
+		if (typeof string !== "string") {				//First check to make sure the data is actually a string.
+			return "Error: Datatype must be a string."
+		} else {
+	
+			if (string.length === 1) {					//Check the length of the string, and if only one letter, return true.
+				return true;
+			} else {
+				for (let i=0; i< string.length; i++) {			// set up a for loop to iterate through each character and compare it to all the others in the string.
+					for (let j= i+1; j < string.length; j++) {	// set up a second for loop to iterate one index position AHEAD of the original for loop, which gives us something to compare. Because the loops are nested, they run iteratively through all possible character comparisons. 
+						if (string[i] === string[j]) {		// if, at any point, the two for loops return equal results, then the result will be false (meaning there is a repeated character in the string.)
+							return false;
+						}
+					}
+				}
+			return true;
+		}

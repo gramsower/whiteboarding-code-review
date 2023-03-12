@@ -1,0 +1,52 @@
+5. Array Sorting: Write an algorithm that sorts an array without using the sort() method.
+
+Clarifying questions:
+
+	- What should be returned? 
+	- What data types should be handled? Numbers only?
+	- Can I use built-in methods? (except sort)?
+	- Can I manipulate the original array directly?
+	- Should I use recursion?
+	- Is javascript ok to use for my language?
+
+a. Cannot use sort(); can use quick sort, merge sort, etc.
+
+Using Quick Sort:
+
+
+function quickSort(arr) {
+	if (arr.length <=1) {					// First check the length of the array. If it's only one entry, return the entire array (no sorting needed).
+		return arr;
+	} else {
+
+		const arrCopy = arr;				// Instantiate a variable to hold a copy of the original array data, to avoid manipulating the original array itself
+		let left = [];					// Instantiate a variable holding an empty array, which will all the array data which is less than (left of) the pivot value;
+		let right = [];					// Same thing except holds all array data which is greater than pivot value.
+		let sortedArray = [];				// Instantiate a variable to hold the sorted array;
+		let pivot = arrCopy.pop();			// Define a variable to hold the 'popped' array value -- using the built-in method pop to "pop off" the first value in the copy array and use it as the pivot value to sort the remaining array values against.
+
+		for (let i=0; i < arrCopy.length; i++) {	// Instantiate a for loop iterating over each entry in the array
+			if (arrCopy[i] <= pivot) {		// If the entry at index i is less than or equal to the value of pivot (the variable defined above by the initial first value in the array)
+				left.push(arr[i]);		// then the entry should be pushed to variable 'left'. The built-in method 'push' adds items to the end of an array, so all comparisons will be added sequentially (either to the left variable or right variable).. 
+			} else {
+				right.push(arr[i]);		// this functions to capture all array entries which are greater than the value of the pivot value.
+			}
+		}
+
+		return sortedArray.concat(quickSort(left), pivot, quickSort(right));	// this line does all the heavy lifting for us: it recursively calls the quickSort method upon itself, further organizing the left and right "sub arrays", 
+	}													// and then concatonating all of the sub-arrays into one sorted overall array. 
+}
+
+const arr = [2, 5, -9, 12, 100, 0, -23]
+quickSort(arr);							// will return sorted array: [-23, -9, 0, 2, 5, 12, 100]
+
+
+If time: Error checking: 
+
+
+function checkError(num) {
+	if (typeof num !== "number") {
+		return "Error, the dataset must only be numbers."
+	} else {
+		return num;
+	}

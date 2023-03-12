@@ -1,0 +1,55 @@
+Q 1: Turning Strings to URLs
+
+- We are only turning spaces into '%20', correct?
+
+Clarifying questions:
+
+	- What should be returned? 
+	- What data types should be handled? Strings only?
+	- Can I use built-in method encodeURI? 
+	- Should I use recursion?
+	- Is javascript ok to use for my language?
+
+
+1A: Without recursion:
+
+function encodeURL(string) {							// Error checking first.
+	 if (typeof string === "string") {
+
+		const encodedString = encodeURIComponent(string);	// If variable passed in is indeed a string, convert using built-in JS method encodeURIComponent.
+		return encodedString;						// Return result.
+
+	} else {	
+
+		return "Error, you must enter a string"			// Error if incorrect datatype is entered.
+	}
+
+const newString = "When Harry Met Sally"
+encodeURL(newString);								// Will return "When%20Harry%20Met%20Sally"
+
+
+
+1B: With recursion:
+
+function encodeURL(string) {
+	if (typeof string !== "string") {
+		return "Error, you must enter a string."
+	}
+
+	if (string === "") {							// Base case - empty string, so return nothing and escape the loop. 
+		return ""; 
+	}
+
+	const firstCharacter = string.charAt(0);				// define a variable to hold the first character in the string (index position zero); use built-in method charAt, 
+											//which returns the character at the specified index in a string.This character is extracted from the string.
+
+	const restOfString = string.slice(1);				// define a variable to hold the remainder of the string; using built-in method slice. Slice takes up to two arguments, here 
+											//we only define the second index position. By only defining one parameter, slice will select the all 
+											// the remaining characters in the string starting from position 1. 
+
+	const encodedCharacter = encodeURIComponent(firstCharacter);// define a variable to hold the encoded characters as the loop continues through the string. Call built-in method as above.
+	return encodedCharacter + encodeString(restOfString);		// return the now-transformed character and concatenate it with the restOfString variable, essentially reassembling the string 
+}											// after encoding.
+
+const newString = "When Harry Met Sally";
+encodeURL(newString);								// returns "When%20Harry%20Met%20Sally"
